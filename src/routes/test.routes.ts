@@ -1,4 +1,4 @@
-const express = require("express");
+import express from 'express';
 
 const router = express.Router();
 
@@ -13,11 +13,11 @@ const router = express.Router();
  *       200:
  *         description: API is working
  */
-router.get("/test", (req, res) => {
-    res.json({
-        success: true,
-        message: "BeroTrac API is working",
-    });
+router.get('/test', (_req, res) => {
+  res.json({
+    success: true,
+    message: 'BeroTrac API is working',
+  });
 });
 
-module.exports = router;
+export default router;
