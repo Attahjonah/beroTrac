@@ -4,7 +4,12 @@ import swaggerDefinition from './swaggerDefinition';
 
 const options = {
   definition: swaggerDefinition,
-  apis: ['./src/routes/**/*.ts', './src/controllers/**/*.ts'],
+  apis: [
+    "./src/routes/**/*.ts",
+    "./src/controllers/**/*.ts",
+    "./dist/routes/**/*.js",
+    "./dist/controllers/**/*.js",
+  ],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
