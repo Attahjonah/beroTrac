@@ -1,4 +1,6 @@
 import express from 'express';
+import type { Response } from 'express';
+import type { AuthRequest } from '../types/express';
 import { register, login } from '../controllers/auth.controller';
 import { authenticateToken, requireRole } from '../middlewares/auth';
 
@@ -59,7 +61,7 @@ router.post('/register', register);
  */
 router.post('/login', login);
 
-router.get('/me', authenticateToken, (req, res) => {
+router.get('/me', authenticateToken, (req: AuthRequest, res: Response) => {
   res.json({
     success: true,
     data: {

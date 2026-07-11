@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
-import type { Request, Response, NextFunction } from 'express';
+import type { Response, NextFunction, RequestHandler } from 'express';
+import type { AuthRequest, AuthUser } from '../types/express';
 
-export function authenticateToken(req: Request, res: Response, next: NextFunction): void {
+export function authenticateToken(req: AuthRequest, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -16,7 +17,7 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET || 'dev-secret');
-    req.user = payload as typeof req.user;
+    req.user = payload as AuthUser;
     next();
   } catch {
     res.status(401).json({
@@ -26,8 +27,8 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
   }
 }
 
-export function requireRole(...roles: string[]) {
-  return (req: Request, res: Response, next: NextFunction): void => {
+export function requireRole(...roles: string[]): RequestHandler {
+  return (req, res, next) => {
     if (!req.user || !roles.includes(req.user.role || '')) {
       res.status(403).json({
         success: false,
