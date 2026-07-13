@@ -6,36 +6,26 @@ datasource db {
   provider = "postgresql"
 }
 
-enum UserRole {
-  admin
-  user
-}
-
-enum PaymentMethod {
-  pos
-  cash
-}
-
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
   username  String   @unique
   password  String
-  role      UserRole @default(user)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  role      UserRole @default(user)
 
   @@map("users")
 }
 
 model Sale {
-  id            String         @id @default(uuid())
+  id            String        @id @default(uuid())
   department    String
   paymentMethod PaymentMethod
-  amount        Decimal        @db.Decimal(12, 2)
+  amount        Decimal       @db.Decimal(12, 2)
   description   String?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   @@map("sales")
 }
@@ -75,19 +65,29 @@ model Pending {
 }
 
 model DepartmentSummary {
-  id          String   @id @default(uuid())
-  department  String
-  month       Int
-  year        Int
-  sales       Decimal  @db.Decimal(12, 2)
-  posSales    Decimal  @db.Decimal(12, 2)
-  cashSales   Decimal  @db.Decimal(12, 2)
-  expenses    Decimal  @db.Decimal(12, 2)
-  pending     Decimal  @db.Decimal(12, 2)
-  cashOut     Decimal  @db.Decimal(12, 2)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(uuid())
+  department String
+  month      Int
+  year       Int
+  sales      Decimal  @db.Decimal(12, 2)
+  posSales   Decimal  @db.Decimal(12, 2)
+  cashSales  Decimal  @db.Decimal(12, 2)
+  expenses   Decimal  @db.Decimal(12, 2)
+  pending    Decimal  @db.Decimal(12, 2)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  cashOut    Decimal  @db.Decimal(12, 2)
 
   @@unique([department, month, year])
   @@map("department_summaries")
+}
+
+enum UserRole {
+  admin
+  user
+}
+
+enum PaymentMethod {
+  pos
+  cash
 }
