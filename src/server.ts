@@ -20,5 +20,5 @@ async function startServer(): Promise<void> {
   app.listen(Number(PORT), "0.0.0.0", () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
-
+}
 startServer();
